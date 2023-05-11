@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('ventures', function (Blueprint $table) {
             $table->id();
-            $table->string('project_name');
-            $table->string('project_name_slug');
-            $table->integer('number_of_plot', false);
-            $table->float('square_feet_price', 8, 2);
-            $table->tinyInteger('sales_status')->default(0)->comment('0 => not sale, 1 => sale');
+            $table->string('venture_name');
+            $table->string('venture_name_slug')->unique();
             $table->timestamps();
         });
     }

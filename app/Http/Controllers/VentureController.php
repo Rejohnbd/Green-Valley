@@ -17,7 +17,7 @@ class VentureController extends Controller
      */
     public function index(): Response
     {
-        $data = Venture::orderBy('id', 'DESC')->get();
+        $data = Venture::with('projects')->orderBy('id', 'DESC')->get();
         return Inertia::render('Venture/List', [
             'ventures' => $data
         ]);
@@ -26,7 +26,7 @@ class VentureController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Venture/Add');
     }
@@ -36,14 +36,10 @@ class VentureController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd($request->all());
-        $request->request->add(['project_name_slug' => Str::slug($request->project_name)]);
+        $request->request->add(['venture_name_slug' => Str::slug($request->venture_name)]);
         Venture::create($request->validate([
-            'project_name' => 'required',
-            'project_name_slug' => 'required',
-            'number_of_plot' => 'required',
-            'square_feet_price' => 'required',
-            'sales_status' => 'required',
+            'venture_name' => 'required',
+            'venture_name_slug' => 'required',
         ]));
         return Redirect::route('ventures.index')->with(['status' => 'success', 'message' => 'Venture Created Successfully']);
     }

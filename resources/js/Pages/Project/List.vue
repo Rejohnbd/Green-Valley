@@ -3,23 +3,23 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
-    ventures: {
+    projects: {
         type: Array
     }
 })
 </script>
 
 <template>
-    <Head title="Venture List" />
+    <Head title="Project List" />
 
     <AuthenticatedLayout>
         <section class="content-header">
             <h1>
-                Venture <small> All Ventures</small>
+                Project <small> All project</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                <li class="active">Venture List</li>
+                <li class="active">Project List</li>
             </ol>
         </section>
 
@@ -34,9 +34,9 @@ defineProps({
 
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Venture List</h3>
+                            <h3 class="box-title">Project List</h3>
                             <div class="box-tools">
-                                <Link :href="route('ventures.create')" type="button" class="btn btn-primary btn-flat btn-xs pull-right">Add Venture</Link>
+                                <Link :href="route('projects.create')" type="button" class="btn btn-primary btn-flat btn-xs pull-right">Add Project</Link>
                             </div>
                         </div>
                         
@@ -45,16 +45,21 @@ defineProps({
                                 <thead>
                                     <tr>
                                         <th>Venture Name</th>
-                                        <th>Number of Project</th>
-                                        <th>Venture Create Date</th>
+                                        <th>Project Project</th>
+                                        <th>Number of Plot</th>
+                                        <th>Square Feet Price</th>
+                                        <th>Sales Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="venture in ventures">
-                                        <td>{{ venture.venture_name  }}</td>
-                                        <td>{{ venture.projects.length }}</td>
-                                        <td>{{ venture.created_at }}</td>
+                                    <tr v-for="project in projects">
+                                        <td>{{ project.venture.venture_name }}</td>
+                                        <td>{{ project.project_name  }}</td>
+                                        <td>{{ project.number_of_plot }}</td>
+                                        <td>{{ project.square_feet_price }}</td>
+                                        <td v-if="project.sales_status">Sold Out</td>
+                                        <td v-else>Not Sale Yet</td>
                                         <td>Edit/Delete</td>
                                     </tr>
                                 </tbody>

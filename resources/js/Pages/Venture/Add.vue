@@ -4,10 +4,7 @@ import { Head, Link, router  } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const form = reactive({
-    project_name: '',
-    number_of_plot: '',
-    square_feet_price: '',
-    sales_status: 0
+    venture_name: ''
 });
 
 function submit() {
@@ -42,29 +39,8 @@ function submit() {
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="projectName" class="control-label">Project <span class="text-danger">*</span></label>
-                                            <input type="text" v-model="form.project_name" class="form-control" id="projectName" placeholder="Enter Project Name" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="plotNumber" class="control-label">Number of Plot <span class="text-danger">*</span></label>
-                                            <input type="number" v-model="form.number_of_plot" class="form-control" id="plotNumber" placeholder="Enter Number of Plot" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="squareFeetPrice" class="control-label">Square Feet Price <span class="text-danger">*</span></label>
-                                            <input type="text" v-model="form.square_feet_price" class="form-control" id="squareFeetPrice" placeholder="Enter Square Feet Price" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="saleStatus" class="control-label">Select Sale Status <span class="text-danger">*</span></label>
-                                            <select class="form-control" v-model="form.sales_status" id="saleStatus" required>
-                                                <option value="0">Not Sale Yet</option>
-                                                <option value="1">Sold Out</option>
-                                            </select>
+                                            <label for="ventureName" class="control-label">Venture Name <span class="text-danger">*</span></label>
+                                            <input type="text" v-model="form.venture_name" class="form-control" id="ventureName" placeholder="Enter Venture Name" required>
                                         </div>
                                     </div>
                                 </div>
