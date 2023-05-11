@@ -1,4 +1,4 @@
-<script setup>
+<script setup inherit-attrs="false">
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';
 </script>
