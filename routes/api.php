@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\VentureController;
+use App\Http\Controllers\Api\Auth\AuthenticateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('ventures', [VentureController::class, 'getAllVentures']);
+Route::post('login', [AuthenticateController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [AuthenticateController::class, 'user']);
+    Route::post('/logout', [AuthenticateController::class, 'logout']);
 });
