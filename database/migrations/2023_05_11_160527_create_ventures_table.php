@@ -15,6 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('venture_name');
             $table->string('venture_name_slug')->unique();
+            $table->text('venture_description')->nullable();
+            $table->integer('number_of_plot', false);
+            $table->float('per_square_feet_price', 8, 2);
+            $table->string('venture_brochure')->nullable();
+            $table->string('venture_layout')->nullable();
+            $table->tinyInteger('active_status');
             $table->timestamps();
         });
     }
