@@ -32,6 +32,12 @@ defineProps({
                         {{ $page.props.flash.message }}
                     </div>
 
+                    <div class="alert alert-danger alert-dismissible" v-if="$page.props.flash.status == 'error'">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                        {{ $page.props.flash.message }}
+                    </div>
+
                     <div class="box box-primary">
                         <div class="box-header">
                             <h3 class="box-title">Venture List</h3>
@@ -46,15 +52,30 @@ defineProps({
                                     <tr>
                                         <th>Venture Name</th>
                                         <th>Number of Project</th>
-                                        <th>Venture Create Date</th>
+                                        <th>Sqaure Feet Price</th>
+                                        <th>Venture Brochure</th>
+                                        <th>Venture Layout</th>
+                                        <th>Venture Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="venture in ventures">
                                         <td>{{ venture.venture_name  }}</td>
-                                        <td>{{ venture.projects.length }}</td>
-                                        <td>{{ venture.created_at }}</td>
+                                        <td>{{ venture.number_of_plot }}</td>
+                                        <td>{{ venture.per_square_feet_price }}</td>
+                                        <td>
+                                            <a :href="venture.venture_brochure" class="btn btn-social-icon btn-bitbucket" download v-if="venture.venture_brochure"><i class="fa fa-download"></i></a>
+                                            <p v-else>No Brochure Uploaded</p>
+                                        </td>
+                                        <td>
+                                            <a :href="venture.venture_layout" v-if="venture.venture_layout" download>
+                                                <img class="img-responsive" style="width: 80px" :src="venture.venture_layout" alt="Photo" />
+                                            </a>
+                                            <p v-else>No Image Uploaded</p>
+                                        </td>
+                                        <td v-if="venture.active_status"><span class="label label-success">Active</span></td>
+                                        <td v-else><span class="label label-danger">Inactive</span></td>
                                         <td>Edit/Delete</td>
                                     </tr>
                                 </tbody>
