@@ -1,6 +1,13 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+
+defineProps({
+    summary: {
+        type: Object
+    }
+});
+
 </script>
 
 <template>
@@ -19,26 +26,52 @@ import { Head } from '@inertiajs/vue3';
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3>{{ summary.numberOfVentures }}</h3>
                             <p>Number of Venture</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-bag"></i>
+                            <i class="fa fa-bank"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <Link :href="route('ventures.index')" class="small-box-footer">Venture List <i class="fa fa-arrow-circle-right"></i></Link>
                     </div>
                 </div>
             
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+                            <h3>{{ summary.numberOfVenturePlots }}</h3>
                             <p>Total Venture Plots</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
+                            <i class="fa fa fa-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <Link :href="route('venture-plots.index')" class="small-box-footer">All Venture Plots <i class="fa fa-arrow-circle-right"></i></Link>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{ summary.numberOfCustomers  }}</h3>
+                            <p>Total Customer</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa fa-users"></i>
+                        </div>
+                        <Link :href="route('customers.index')" class="small-box-footer">Customer List <i class="fa fa-arrow-circle-right"></i></Link>
+                    </div>
+                </div>
+            
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{ summary.numberOfStaff }}</h3>
+                            <p>Total Staff</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-child"></i>
+                        </div>
+                        <Link :href="route('staffs.index')" class="small-box-footer">All Staff <i class="fa fa-arrow-circle-right"></i></Link>
                     </div>
                 </div>
             </div>
