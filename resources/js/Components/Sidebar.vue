@@ -32,6 +32,7 @@
                 <li><Link :href="route('dashboard')"><i class="fa fa-dashboard"></i> <span>Dashboard</span></Link></li>
                 <li><Link :href="route('ventures.index')"><i class="fa fa-book"></i> <span>Venture</span></Link></li>
                 <li><Link :href="route('venture-plots.index')"><i class="fa fa-book"></i> <span>Venture Plots</span></Link></li>
+                <li><Link :href="route('customers.index')"><i class="fa fa-book"></i> <span>Customers</span></Link></li>
             </ul>
         </section>
     </aside>

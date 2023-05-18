@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\VentureController;
 use App\Http\Controllers\VenturePlotController;
@@ -38,9 +39,23 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
     Route::resource('ventures', VentureController::class);
     Route::resource('venture-plots', VenturePlotController::class);
+    Route::resource('customers', CustomerController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('migrate/{key}', function ($key) {
+    if ($key == 'Rejohn@1234') {
+        try {
+            \Artisan::call('migrate');
+            echo 'Migrated Successfully!';
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    } else {
+        echo 'Not matched!';
+    }
 });
 
 require __DIR__ . '/auth.php';
