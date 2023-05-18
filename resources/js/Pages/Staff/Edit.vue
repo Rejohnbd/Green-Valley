@@ -98,7 +98,7 @@ function submit() {
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <Link :href="route('customers.index')" class="btn btn-default">Cancel</Link>
+                                <Link :href="route('staffs.index')" class="btn btn-default">Cancel</Link>
                                 <button type="submit" class="btn btn-info pull-right">Update</button>
                             </div>
                         </form>

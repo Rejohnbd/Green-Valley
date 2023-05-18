@@ -18,7 +18,7 @@ defineProps({
                 Venture <small> All Ventures</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><Link :href="route('dashboard')"><i class="fa fa-dashboard"></i> Dashboard</Link></li>
                 <li class="active">Venture List</li>
             </ol>
         </section>

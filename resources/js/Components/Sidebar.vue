@@ -11,7 +11,7 @@
                 </div>
                 <div class="pull-left info">
                     <p>{{ $page.props.auth.user.name }}</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <i class="fa fa-circle text-success"></i> Online
                 </div>
             </div>
 
