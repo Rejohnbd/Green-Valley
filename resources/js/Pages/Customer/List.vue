@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import Swal from 'sweetalert2'
 
 defineProps({
     customers: {
@@ -11,10 +12,24 @@ defineProps({
 const form = useForm({});
 
 const deleteUser = (deleteInfo) => {
+    const alert = Swal.mixin({
+        buttonsStyling: true
+    });
+    alert.fire({
+        title: 'Are you sure'+ deleteInfo.customer_name +'?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa-solid fa-check"></i> Yes, delete',
+        cancelButtonText: '<i class="fa-solid fa-ban"></i> Yes, delete',
+    }).then((result) => {
+        if(result.isConfirmed) {
+            form.delete(route('customers.destroy', deleteInfo));
+        }
+    });
     // console.log(deleteId)
-    if(confirm("Are you sure you want to Delete")) {
-        form.delete(route('customers.destroy', deleteInfo));
-    }
+    // if(confirm("Are you sure you want to Delete")) {
+    //     form.delete(route('customers.destroy', deleteInfo));
+    // }
 };
 </script>
 
@@ -55,7 +70,7 @@ const deleteUser = (deleteInfo) => {
                             </div>
                         </div>
                         
-                        <div class="box-body">
+                        <div class="box-body table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>

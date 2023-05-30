@@ -36,7 +36,8 @@ use Inertia\Inertia;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('ventures', VentureController::class);
     Route::resource('venture-plots', VenturePlotController::class);
     Route::resource('customers', CustomerController::class);

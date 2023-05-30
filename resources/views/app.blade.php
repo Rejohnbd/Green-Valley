@@ -9,8 +9,8 @@
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="stylesheet" href="{{ asset('admin/vendors/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/vendors/font-awesome/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/vendors/Ionicons/css/ionicons.min.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('admin/vendors/font-awesome/css/font-awesome.min.css') }}"> -->
+    <!-- <link rel="stylesheet" href="{{ asset('admin/vendors/Ionicons/css/ionicons.min.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('admin/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/skins/_all-skins.min.css') }}">
 
@@ -25,15 +25,15 @@
 
     <script src="{{ asset('admin/vendors/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('admin/vendors/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('admin/vendors/fastclick/lib/fastclick.js') }}"></script>
+    <!-- <script src="{{ asset('admin/vendors/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('admin/vendors/fastclick/lib/fastclick.js') }}"></script> -->
     <script src="{{ asset('admin/js/adminlte.min.js') }}"></script>
-    <script src="{{ asset('admin/js/demo.js') }}"></script>
-    <script>
+    <!-- <script src="{{ asset('admin/js/demo.js') }}"></script> -->
+    <!-- <script>
         $(document).ready(function() {
             $('.sidebar-menu').tree()
         })
-    </script>
+    </script> -->
 </body>
 
 </html>

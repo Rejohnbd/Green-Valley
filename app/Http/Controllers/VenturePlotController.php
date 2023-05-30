@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Staff;
 use App\Models\VenturePlot;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,9 +41,9 @@ class VenturePlotController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(VenturePlot $venturePlot)
     {
-        //
+        dd($venturePlot);
     }
 
     /**
@@ -49,7 +51,17 @@ class VenturePlotController extends Controller
      */
     public function edit(VenturePlot $venturePlot)
     {
-        dd($venturePlot);
+        $allCustomers = Customer::orderBy('id', 'DESC')->get(['id', 'customer_name', 'customer_phone']);
+        // $allCustomers = array(
+        //     'id' => 1,
+        //     'text'  => 'abc'
+        // );
+        $allActiveStaffs = Staff::where('staff_active_status', 1)->get(['id', 'staff_name', 'staff_phone']);
+        return Inertia::render('VenturePlot/Edit', [
+            'venture_plot'  => $venturePlot,
+            'all_customers' => $allCustomers,
+            'all_staffs'    => $allActiveStaffs,
+        ]);
     }
 
     /**

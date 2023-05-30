@@ -2,8 +2,16 @@
 import { reactive } from 'vue'
 import { Head, Link, router, useForm  } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import Swal from 'sweetalert2';
+
+const ok = (message) => {
+    form.reset();
+    Swal.fire({ title: message, icon: 'success'});
+}
 
 defineProps({ errors: Object })
+
+
 
 const form = reactive({
     customer_name: '',
