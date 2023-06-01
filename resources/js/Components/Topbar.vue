@@ -108,8 +108,8 @@
                             <li class="user-header">
                                 <img src="/admin/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                             <p>
-                                {{ $page.props.auth.user.name }}
-                                <!-- <small>Member since Nov. 2012</small> -->
+                                {{ $page.props.auth.user.first_name }} {{ $page.props.auth.user.last_name }}
+                                <small>{{ $page.props.auth.user.created_at }}</small>
                             </p>
                             </li>
                             <li class="user-footer">

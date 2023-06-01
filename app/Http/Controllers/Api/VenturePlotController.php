@@ -68,6 +68,6 @@ class VenturePlotController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // 
     }
 }

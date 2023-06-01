@@ -1,13 +1,38 @@
 <script setup>
+import Swal from 'sweetalert2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import Pagination from '@/Components/Pagination.vue'
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import Pagination from '@/Components/Pagination.vue';
+
 
 defineProps({
     venture_plots: {
         type: Object
     }
 })
+
+const form = useForm({});
+
+const deletePlot = (deleteInfo) => {
+    const alert = Swal.mixin({
+        buttonsStyling: true
+    });
+    alert.fire({
+        title: 'Are you sure want to delete' + deleteInfo.plot_name + '?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa fa-solid fa-check"></i> Yes Delete',
+        cancelButtonText: '<i class="fa fa-ban"></i> Not Yet',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.delete(route('venture-plots.destroy', deleteInfo));
+        }
+    });
+    // console.log(deleteId)
+    // if(confirm("Are you sure you want to Delete")) {
+    //     form.delete(route('customers.destroy', deleteInfo));
+    // }
+};
 </script>
 
 <template>
@@ -67,6 +92,7 @@ defineProps({
                                         <td>{{ vplot.handover_date }}</td>
                                         <td>
                                             <Link :href="route('venture-plots.edit', vplot)" class="btn btn-social-icon btn-dropbox"><i class="fa fa-edit"></i></Link>
+                                            <button class="btn btn-social-icon btn-danger" @click="deletePlot(vplot)" style="margin-left: 5px"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>

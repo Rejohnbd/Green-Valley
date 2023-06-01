@@ -51,7 +51,7 @@ defineProps({
                                 <thead>
                                     <tr>
                                         <th>Venture Name</th>
-                                        <th>Number of Project</th>
+                                        <th>Number of Plot</th>
                                         <th>Sqaure Feet Price</th>
                                         <th>Venture Brochure</th>
                                         <th>Venture Layout</th>

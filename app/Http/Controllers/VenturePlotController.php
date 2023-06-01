@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Staff;
+use App\Models\Venture;
 use App\Models\VenturePlot;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Redirect;
 
 class VenturePlotController extends Controller
 {
@@ -75,8 +78,13 @@ class VenturePlotController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(VenturePlot $venturePlot): RedirectResponse
     {
-        //
+        $ventureInfo = Venture::find($venturePlot->venture_id);
+        $ventureInfo->number_of_plot = ($ventureInfo->number_of_plot - 1);
+        $ventureInfo->save();
+
+        $venturePlot->delete();
+        return Redirect::route('venture-plots.index')->with(['status' => 'success', 'message' => 'Venture Plot Deleted Successfully']);
     }
 }
