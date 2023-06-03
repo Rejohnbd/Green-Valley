@@ -24,8 +24,11 @@ Route::post('login', [AuthenticateController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthenticateController::class, 'user']);
     Route::post('/logout', [AuthenticateController::class, 'logout']);
-    Route::apiResource('staffs', StaffController::class);
-    Route::apiResource('customers', CustomerController::class);
-    Route::apiResource('ventures', VentureController::class);
-    Route::apiResource('venture-plots', VenturePlotController::class);
+    // Admin
+    Route::prefix('admin')->middleware('admin')->group(function () {
+        // Route::apiResource('staffs', StaffController::class);
+        // Route::apiResource('customers', CustomerController::class);
+        Route::apiResource('ventures', VentureController::class);
+        Route::apiResource('venture-plots', VenturePlotController::class);
+    });
 });
