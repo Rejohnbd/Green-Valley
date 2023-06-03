@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\UserStoreRequest;
 use App\Models\User;
+use App\Models\UserInfo;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -25,15 +31,40 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $data = UserRole::all();
+        return Inertia::render('User/Add', [
+            'user_roles' => $data
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request): RedirectResponse
     {
-        //
+        $newUser = new User;
+
+        $newUser->role_id       = $request->role_id;
+        $newUser->first_name    = $request->first_name;
+        $newUser->last_name     = $request->last_name;
+        $newUser->email         = $request->email;
+        $newUser->password      = Hash::make($request->email);
+        $newUser->active_status = $request->active_status;
+        $newUser->save();
+
+        $newUserInfo = new UserInfo;
+        $newUserInfo->user_id   = $newUser->id;
+        $newUserInfo->phone   = $request->phone;
+        $newUserInfo->address   = $request->address;
+        if (!is_null($request->start_date)) :
+            $newUserInfo->start_date   = $request->start_date;
+        endif;
+        if (!is_null($request->start_date)) :
+            $newUserInfo->end_date   = $request->end_date;
+        endif;
+        $newUserInfo->save();
+
+        return Redirect::route('users.index')->with(['status' => 'success', 'message' => 'User Created Successfully']);
     }
 
     /**
