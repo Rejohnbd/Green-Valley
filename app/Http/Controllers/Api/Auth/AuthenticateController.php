@@ -63,10 +63,13 @@ class AuthenticateController extends Controller
 
     public function user()
     {
+        $user = Auth::user();
+        $user->load('userInfo');
+
         return response()->json([
             'status'        => true,
             'message'       => 'User Details',
-            'user'          => Auth::user()
+            'user'          => $user
         ], 200);
     }
 
