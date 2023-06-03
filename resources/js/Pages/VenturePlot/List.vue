@@ -28,10 +28,6 @@ const deletePlot = (deleteInfo) => {
             form.delete(route('venture-plots.destroy', deleteInfo));
         }
     });
-    // console.log(deleteId)
-    // if(confirm("Are you sure you want to Delete")) {
-    //     form.delete(route('customers.destroy', deleteInfo));
-    // }
 };
 </script>
 

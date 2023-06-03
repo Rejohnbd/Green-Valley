@@ -1,12 +1,31 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 
 defineProps({
     ventures: {
         type: Array
     }
 })
+
+const form = useForm({});
+
+const deleteVenture = (deleteInfo) => {
+    const alert = Swal.mixin({
+        buttonsStyling: true
+    });
+    alert.fire({
+        title: 'Are you sure want to delete' + deleteInfo.venture_name + '?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa fa-solid fa-check"></i> Yes Delete',
+        cancelButtonText: '<i class="fa fa-ban"></i> Not Yet',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // form.delete(route('venture-plots.destroy', deleteInfo));
+        }
+    });
+};
 </script>
 
 <template>
@@ -76,7 +95,10 @@ defineProps({
                                         </td>
                                         <td v-if="venture.active_status"><span class="label label-success">Active</span></td>
                                         <td v-else><span class="label label-danger">Inactive</span></td>
-                                        <td>Edit/Delete</td>
+                                        <td>
+                                            <Link :href="route('ventures.edit', venture)" class="btn btn-social-icon btn-dropbox"><i class="fa fa-edit"></i></Link>
+                                            <button class="btn btn-social-icon btn-danger" @click="deleteVenture(venture)" style="margin-left: 5px"><i class="fa fa-trash"></i></button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

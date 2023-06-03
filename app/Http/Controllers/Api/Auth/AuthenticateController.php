@@ -39,6 +39,7 @@ class AuthenticateController extends Controller
             if ($checkEmailExists) {
                 if (Auth::attempt($request->only(['email', 'password']))) {
                     $user = Auth::user();
+                    $user->load('userRole');
                     return response()->json([
                         'status'        => true,
                         'message'       => 'Logged in successfully',

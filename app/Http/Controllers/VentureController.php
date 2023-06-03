@@ -101,17 +101,19 @@ class VentureController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Venture $venture)
     {
-        //
+        return Inertia::render('Venture/Edit', [
+            'venture' => $venture
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

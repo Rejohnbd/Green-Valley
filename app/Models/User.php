@@ -33,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'updated_at'
     ];
 
     /**
@@ -43,6 +44,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function userRole()
+    {
+        return $this->belongsTo(UserRole::class, 'role_id', 'id');
+    }
 
     public function getCreatedAtAttribute($date)
     {
