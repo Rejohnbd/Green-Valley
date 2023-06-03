@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('address')->nullable();
             $table->date('start_date')->nullable();
-            $table->date('endd_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
