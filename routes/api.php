@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthenticateController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\StaffController;
+use App\Http\Controllers\Api\UserContoller;
 use App\Http\Controllers\Api\VentureController;
 use App\Http\Controllers\Api\VenturePlotController;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('admin')->middleware('admin')->group(function () {
         // Route::apiResource('staffs', StaffController::class);
         // Route::apiResource('customers', CustomerController::class);
+        Route::apiResource('users', UserContoller::class);
         Route::apiResource('ventures', VentureController::class);
         Route::apiResource('venture-plots', VenturePlotController::class);
     });
