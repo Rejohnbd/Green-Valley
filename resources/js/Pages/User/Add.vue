@@ -107,7 +107,7 @@ function submit() {
                                         <div class="form-group">
                                             <label for="userRole" class="control-label">Select User Role <span class="text-danger">*</span></label>
                                             <select class="form-control" @change="checkUserRoleChange" v-model="form.role_id" id="userRole" required>
-                                                <option :value="role.id" v-for="role in  this.$props.user_roles">{{ role.name }} </option>
+                                                <option :value="role.id" v-for="role in  $page.props.user_roles">{{ role.name }} </option>
                                             </select>
                                             <span class="help-block" style="color: red;">{{ errors.role_id }}</span>
                                         </div>
