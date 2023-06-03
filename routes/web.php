@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VentureController;
 use App\Http\Controllers\VenturePlotController;
 use Illuminate\Foundation\Application;
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::post('ventures-update', [VenturePlotController::class, 'update'])->name('ventures-update');
     Route::resource('customers', CustomerController::class);
     Route::resource('staffs', StaffController::class);
+    Route::resource('users', UserController::class);
+    // 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

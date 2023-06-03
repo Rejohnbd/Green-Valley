@@ -34,6 +34,7 @@
                 <li><Link :href="route('venture-plots.index')"><i class="fa fa-bars"></i> <span>Venture Plots</span></Link></li>
                 <li><Link :href="route('customers.index')"><i class="fa fa-users"></i> <span>Customers</span></Link></li>
                 <li><Link :href="route('staffs.index')"><i class="fa fa-child"></i> <span>Staff</span></Link></li>
+                <li><Link :href="route('users.index')"><i class="fa fa-users"></i> <span>Users</span></Link></li>
             </ul>
         </section>
     </aside>

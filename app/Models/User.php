@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->belongsTo(UserRole::class, 'role_id', 'id');
     }
 
+    public function userInfo()
+    {
+        return $this->hasOne(UserInfo::class);
+    }
+
     public function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y-m-d');
