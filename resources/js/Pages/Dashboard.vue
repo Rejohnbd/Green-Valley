@@ -58,7 +58,7 @@ defineProps({
                         <div class="icon">
                             <i class="fa fa fa-users"></i>
                         </div>
-                        <Link :href="route('customers.index')" class="small-box-footer">Customer List <i class="fa fa-arrow-circle-right"></i></Link>
+                        <Link :href="route('users.index')" class="small-box-footer">Customer List <i class="fa fa-arrow-circle-right"></i></Link>
                     </div>
                 </div>
             
@@ -71,7 +71,7 @@ defineProps({
                         <div class="icon">
                             <i class="fa fa-child"></i>
                         </div>
-                        <Link :href="route('staffs.index')" class="small-box-footer">All Staff <i class="fa fa-arrow-circle-right"></i></Link>
+                        <Link :href="route('users.index')" class="small-box-footer">All Staff <i class="fa fa-arrow-circle-right"></i></Link>
                     </div>
                 </div>
             </div>

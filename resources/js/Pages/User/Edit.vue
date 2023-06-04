@@ -3,25 +3,26 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
 import { reactive } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
-defineProps({ 
+const props = defineProps({ 
     errors: Object, 
+    user: Object,
     user_roles: Array
 });
 
-const form = reactive({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: 'password',
-    role_id: 3,
-    phone: '',
-    address: '',
-    start_date: '',
-    end_date: '',
-    active_status: 1,
+const form = useForm({
+    first_name: props.user.first_name,
+    last_name: props.user.last_name,
+    email: props.user.email,
+    password: '',
+    role_id: props.user.user_role.id,
+    phone: props.user.user_info.phone,
+    address: props.user.user_info.address,
+    start_date: props.user.user_info.start_date,
+    end_date: props.user.user_info.end_date,
+    active_status: props.user.active_status,
     show_password: false
 });
 
@@ -30,16 +31,20 @@ const showPassword = () => {
 }
 
 const checkUserRoleChange = () => {
-    if(form.role_id != 2) {
+    if(form.role_id == 2) {
+        form.start_date = props.user.user_info.start_date;
+        form.end_date = props.user.user_info.end_date;
+    } else {
         form.start_date = '';
         form.end_date = '';
     }
+    
 }
 
 
 const formatDate = (date) => {
     if(date != null && date != ''){
-        var d = new Date(date),
+        let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
@@ -47,7 +52,7 @@ const formatDate = (date) => {
         if (month.length < 2) {
             month = '0' + month;
         }
-        if (day.length < 2){
+        if (day.length < 2) {
             day = '0' + day;
         }
 
@@ -70,7 +75,8 @@ function submit() {
         start_date : formatDate(form.start_date),
         end_date : formatDate(form.end_date)
     }
-    router.post('/users', formData)
+    // router.post('/users', formData)
+    form.put(route('users.update', props.user.id));
 }
 </script>
 
@@ -138,7 +144,7 @@ function submit() {
                                         <div class="form-group">
                                             <label for="userPassword" class="control-label">User Password <span class="text-danger">*</span></label>
                                             <div class="input-group input-group-sm">
-                                                <input :type="form.show_password ? 'text' : 'password'" v-model="form.password" class="form-control" id="userPassword" placeholder="Enter User Password" required>
+                                                <input :type="form.show_password ? 'text' : 'password'" v-model="form.password" class="form-control" id="userPassword" placeholder="Enter User Password">
                                                 <span class="input-group-btn" @click="showPassword">
                                                     <button type="button" class="btn btn-info btn-flat">
                                                         <i :class="form.show_password ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>

@@ -1,4 +1,5 @@
 <script setup>
+import Swal from 'sweetalert2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
@@ -11,10 +12,20 @@ defineProps({
 const form = useForm({});
 
 const deleteUser = (deleteInfo) => {
-    // console.log(deleteId)
-    if(confirm("Are you sure you want to Delete")) {
-        form.delete(route('staffs.destroy', deleteInfo));
-    }
+    const alert = Swal.mixin({
+        buttonsStyling: true
+    });
+    alert.fire({
+        title: 'Are you sure?. Want to Delete' + deleteInfo.email,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa fa-solid fa-check"></i> Yes, delete',
+        cancelButtonText: '<i class="fa fa-ban"></i> Not, Yet',
+    }).then((result) => {
+        // if (result.isConfirmed) {
+        //     form.delete(route('users.destroy', deleteInfo));
+        // }
+    });
 };
 
 const getUserRoleClass = (userInfo) => {

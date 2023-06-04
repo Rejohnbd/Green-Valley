@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserStoreRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\UserRole;
@@ -78,17 +79,42 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $user = $user->load(['userRole', 'userInfo']);
+        $data = UserRole::all();
+        return Inertia::render('User/Edit', [
+            'user'          => $user,
+            'user_roles'    => $data
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        //
+        $user->role_id       = $request->role_id;
+        $user->first_name    = $request->first_name;
+        $user->last_name     = $request->last_name;
+        $user->email         = $request->email;
+        if ($request->filled('password')) {
+            $user->password      = Hash::make($request->email);
+        }
+        $user->active_status = $request->active_status;
+        $user->save();
+
+        $user->userInfo->phone  = $request->phone;
+        $user->userInfo->address  = $request->address;
+        if (!is_null($request->start_date)) :
+            $user->userInfo->start_date   = $request->start_date;
+        endif;
+        if (!is_null($request->start_date)) :
+            $user->userInfo->end_date   = $request->end_date;
+        endif;
+        $user->userInfo->save();
+
+        return Redirect::route('users.index')->with(['status' => 'success', 'message' => 'User Update Successfully']);
     }
 
     /**
