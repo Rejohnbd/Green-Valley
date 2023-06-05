@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthenticateController;
+use App\Http\Controllers\Api\Customer\CustomerVentureController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\StaffController;
 use App\Http\Controllers\Api\UserContoller;
@@ -32,5 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('users', UserContoller::class);
         Route::apiResource('ventures', VentureController::class);
         Route::apiResource('venture-plots', VenturePlotController::class);
+    });
+    // Customer
+    Route::prefix('customer')->middleware('customer')->group(function () {
+        Route::get('all-ventures', [CustomerVentureController::class, 'allVentureItems'])->name('all-ventures');
     });
 });

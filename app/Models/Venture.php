@@ -12,9 +12,14 @@ class Venture extends Model
 
     protected $guarded = [];
 
-    public function projects()
+    public function saleVenturePlots()
     {
-        return $this->hasMany(Project::class);
+        return $this->hasMany(VenturePlot::class)->where('plot_status', 1);
+    }
+
+    public function availableVenturePlots()
+    {
+        return $this->hasMany(VenturePlot::class)->where('plot_status', 0);
     }
 
     public function getCreatedAtAttribute($date)
