@@ -18,8 +18,7 @@
         </section>
 
         <section class="content">
-            <button id="rejohn" v-if="isLoading">Abc</button>
-            <div class="row" v-else>
+            <div class="row">
                 <div class="col-xs-12">
                     <div class="alert alert-danger alert-dismissible" v-if="$page.props.flash.status == 'error'">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -42,6 +41,7 @@
                                                 class="form-control" 
                                                 id="plotName"
                                                 placeholder="Enter Plot Name"
+                                                required
                                             >
                                         </div>
                                         <span class="help-block" style="color: red;">{{ errors.plot_name }}</span>
@@ -55,6 +55,7 @@
                                                 class="form-control"
                                                 id="numberOfSquareFeet" 
                                                 placeholder="Enter Number of Square Feet"
+                                                required
                                             >
                                         </div>
                                         <span class="help-block" style="color: red;">{{ errors.number_of_square_feet }}</span>
@@ -68,7 +69,9 @@
                                                 class="form-control"
                                                 id="totalPrice" 
                                                 placeholder="Enter Total Price"
+                                                required
                                             >
+                                            <span class="help-block" style="color: red;">{{ errors.total_price }}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -78,11 +81,13 @@
                                                 id="selectCustomer" 
                                                 v-model="form.customer_id" 
                                                 searchable
-                                                :options="this.$props.all_customers" 
-                                                label-by="customer_name"
+                                                :options="$page.props.all_customers" 
+                                                label-by="name"
                                                 class="vue-next-select" 
+                                                required
                                             />
                                         </div>
+                                        <span class="help-block" style="color: red;">{{ errors.customer_id }}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -90,33 +95,35 @@
                                                     class="text-danger">*</span></label>
                                             <select class="form-control" v-model="form.staff_id" id="selectStaff" required>
                                                 <option value="">Select Staff</option>
-                                                <option :value="staff.id" v-for="staff in  this.$props.all_staffs">{{staff.staff_name }} ({{ staff.staff_phone }})</option>
+                                                <option :value="staff.id" v-for="staff in  $page.props.all_staffs">{{staff.first_name }} {{ staff.last_name }}</option>
                                             </select>
+                                            <span class="help-block" style="color: red;">{{ errors.staff_id }}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="saleDate" class="control-label">Sale Date</label>
-                                            <!-- <input type="date" class="form-control datepicker" v-model="form.sale_date" id="saleDate" placeholder="Enter Sale Date"> -->
+                                            <label for="handOverDate" class="control-label">Sale Date </label>
                                             <VueDatePicker 
                                                 v-model="form.sale_date"
-                                                placeholder="Enter Sale Date"
-                                                class="vue-date-picker"
+                                                placeholder="Enter Handover Date"
+                                                class=""
+                                                :enable-time-picker="false" 
+                                                required
                                             />
+                                            <span class="help-block" style="color: red;">{{ errors.sale_date }}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="handOverDate" class="control-label">Handover Date </label>
-                                            <!-- <input type="date" class="form-control datepicker" v-model="form.handover_date" id="handOverDate" placeholder="Enter Handouver Date"> -->
                                             <VueDatePicker 
                                                 v-model="form.handover_date"
                                                 placeholder="Enter Handover Date"
                                                 class=""
+                                                :enable-time-picker="false" 
                                             />
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="box-footer">
@@ -162,37 +169,79 @@ export default {
             type: Array
         }
     },
+    
     created(){
+        this.form.plot_id = this.$props.venture_plot.id;
+        this.form.plot_name = this.$props.venture_plot.plot_name;
+        // this.form.plot_id = ;
         // console.log(this.$props.all_customers)
-        console.log(toRaw(this.$props.all_customers))
+        // console.log(toRaw(this.$props.all_customers))
         // console.log(typeof this.$props.all_staffs)
         // this.allCustomers = toRaw(this.$props.all_customers)
         // console.log(JSON.parse(JSON.stringify(this.tickets)) )
-        this.isLoading = false
+        // this.isLoading = false
     },
     setup() {
-        const customer_id = ref();
+        // const customer_id = ref();
         // const sale_date = ref();
+        // const form = ref();
     },
     data(){
         return {
             form: {
+                plot_id: '',
                 plot_name: '',
                 number_of_square_feet: '',
                 total_price: '',
                 customer_id: '',
                 staff_id: '',
                 sale_date: '',
-                handover_date: '',
+                handover_date: ''
             },
-            allCustomers: [
-                {
-                    "id": 1,
-                    "customer_name": "Test Customer",
-                    "customer_phone": "1745248533"
+            // isLoading: true
+        }
+    },
+    methods: {
+        submit() {
+            console.log(this.form);
+            if(Object.keys(this.form.customer_id).length > 0){
+                let formData = {
+                    plot_id: this.form.plot_id,
+                    plot_name: this.form.plot_name,
+                    number_of_square_feet: this.form.number_of_square_feet,
+                    total_price: this.form.total_price,
+                    customer_id: this.form.customer_id.id,
+                    staff_id: this.form.staff_id,
+                    sale_date: this.formatDate(this.form.sale_date),
+                    handover_date: this.formatDate(this.form.handover_date),
                 }
-            ],
-            isLoading: true
+                console.log(formData);
+                const form = useForm({});
+                form.post(route('venture-plots-update', formData))
+            } else {
+                alert('Customer Select is Requrired');
+                
+            }
+            
+        },
+        formatDate(date) {
+            if (date != null && date != '') {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) {
+                    month = '0' + month;
+                }
+                if (day.length < 2) {
+                    day = '0' + day;
+                }
+
+                return [year, month, day].join('-');
+            } else {
+                return '';
+            }
         }
     }
     
@@ -217,9 +266,9 @@ export default {
 //     // all_customers: props.all_customers
 // });
 
-function submit() {
-    form.put(route('staffs.update', props.staff.id))
-}
+// function submit() {
+    
+// }
 
 // function testClick() {
 //     const swal = new VueSweetalert2();

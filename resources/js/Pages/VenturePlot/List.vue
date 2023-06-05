@@ -9,7 +9,9 @@ defineProps({
     venture_plots: {
         type: Object
     }
-})
+});
+
+// console.log(this.$props.venture_plots.data)
 
 const form = useForm({});
 
@@ -72,6 +74,7 @@ const deletePlot = (deleteInfo) => {
                                         <th>Saleman</th>
                                         <th>Sale Date</th>
                                         <th>Handover Date</th>
+                                        <th>Plot Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -82,13 +85,19 @@ const deletePlot = (deleteInfo) => {
                                         <td>{{ vplot.plot_name }}</td>
                                         <td>{{ vplot.number_of_square_feet }}</td>
                                         <td>{{ vplot.total_price }}</td>
-                                        <td>{{ vplot.customer_id }}</td>
-                                        <td>{{ vplot.staff_id }}</td>
+                                        <td v-if="vplot.venture_plot_customer">{{ vplot.venture_plot_customer.first_name }}  {{ vplot.venture_plot_customer.last_name }}</td>
+                                        <td v-else></td>
+                                        <td v-if="vplot.venture_plot_staff">{{ vplot.venture_plot_staff.first_name }}  {{ vplot.venture_plot_staff.last_name }}</td>
+                                        <td v-else></td>
                                         <td>{{ vplot.sale_date }}</td>
                                         <td>{{ vplot.handover_date }}</td>
                                         <td>
+                                            <span class="label label-success" v-if="vplot.plot_status">Sale</span>
+                                            <span class="label label-warning" v-else>Unsale</span>
+                                        </td>
+                                        <td>
                                             <Link :href="route('venture-plots.edit', vplot)" class="btn btn-social-icon btn-dropbox"><i class="fa fa-edit"></i></Link>
-                                            <button class="btn btn-social-icon btn-danger" @click="deletePlot(vplot)" style="margin-left: 5px"><i class="fa fa-trash"></i></button>
+                                            <button class="btn btn-social-icon btn-danger" @click="deletePlot(vplot)" style="margin-left: 5px" v-if="vplot.plot_status == 0"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>

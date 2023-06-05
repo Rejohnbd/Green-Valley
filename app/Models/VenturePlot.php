@@ -13,4 +13,14 @@ class VenturePlot extends Model
     {
         return $this->hasOne(Venture::class, 'id', 'venture_id');
     }
+
+    public function venturePlotCustomer()
+    {
+        return $this->belongsTo(User::class, 'customer_id', 'id');
+    }
+
+    public function venturePlotStaff()
+    {
+        return $this->belongsTo(User::class, 'staff_id', 'id');
+    }
 }

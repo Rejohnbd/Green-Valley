@@ -40,8 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('ventures', VentureController::class);
-    Route::resource('venture-plots', VenturePlotController::class);
     Route::post('ventures-update', [VenturePlotController::class, 'update'])->name('ventures-update');
+    Route::resource('venture-plots', VenturePlotController::class);
+    Route::post('venture-plots-update', [VenturePlotController::class, 'update'])->name('venture-plots-update');
     Route::resource('users', UserController::class);
     // 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

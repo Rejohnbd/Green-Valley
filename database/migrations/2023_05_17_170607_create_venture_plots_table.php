@@ -23,6 +23,14 @@ return new class extends Migration
             $table->date('sale_date')->nullable();
             $table->date('handover_date')->nullable();
             $table->timestamps();
+
+            $table->foreign('customer_id')
+                ->references('id')
+                ->on('users');
+
+            $table->foreign('staff_id')
+                ->references('id')
+                ->on('users');
         });
     }
 

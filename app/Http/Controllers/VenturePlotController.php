@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VenturePlot\VenturePlotUpdateRequest;
 use App\Models\Customer;
 use App\Models\Staff;
+use App\Models\User;
 use App\Models\Venture;
 use App\Models\VenturePlot;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
@@ -19,7 +22,10 @@ class VenturePlotController extends Controller
      */
     public function index(): Response
     {
-        $data = VenturePlot::with('ventureInfo')->paginate(10);
+        $data = VenturePlot::with(['venturePlotCustomer', 'venturePlotStaff'])->whereHas('ventureInfo', function ($query) {
+            $query->where('active_status', 1);
+        })->with('ventureInfo')->paginate(10);
+
         return Inertia::render('VenturePlot/List', [
             'venture_plots' => $data
         ]);
@@ -54,25 +60,37 @@ class VenturePlotController extends Controller
      */
     public function edit(VenturePlot $venturePlot)
     {
-        $allCustomers = Customer::orderBy('id', 'DESC')->get(['id', 'customer_name', 'customer_phone']);
-        // $allCustomers = array(
-        //     'id' => 1,
-        //     'text'  => 'abc'
-        // );
-        $allActiveStaffs = Staff::where('staff_active_status', 1)->get(['id', 'staff_name', 'staff_phone']);
+        $allCustomers = User::where('role_id', 3)->where('active_status', 1)->orderBy('id', 'DESC')->get(['id', DB::raw("CONCAT(`first_name`, ' ', `last_name`, ' (', `email`, ')') AS name")]);
+        // $allCustomers = User::with('userInfo')->where('role_id', 3)->where('active_status', 1)->orderBy('id', 'DESC')->get(['id', 'first_name', 'last_name', 'email']);
+        $allEmployee = User::where('role_id', 2)->where('active_status', 1)->orderBy('id', 'DESC')->get(['id', 'first_name', 'last_name', 'email']);
+
         return Inertia::render('VenturePlot/Edit', [
             'venture_plot'  => $venturePlot,
             'all_customers' => $allCustomers,
-            'all_staffs'    => $allActiveStaffs,
+            'all_staffs'    => $allEmployee,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(VenturePlotUpdateRequest $request)
     {
-        //
+        $ventureInfo = VenturePlot::findOrFail($request->plot_id);
+
+        $ventureInfo->plot_name = $request->plot_name;
+        $ventureInfo->number_of_square_feet = $request->number_of_square_feet;
+        $ventureInfo->total_price = $request->total_price;
+        $ventureInfo->customer_id = $request->customer_id;
+        $ventureInfo->staff_id = $request->staff_id;
+        $ventureInfo->sale_date = $request->sale_date;
+        if (!is_null($request->handover_date)) :
+            $ventureInfo->handover_date = $request->handover_date;
+        endif;
+        $ventureInfo->plot_status = 1;
+        $ventureInfo->save();
+
+        return Redirect::route('venture-plots.index')->with(['status' => 'success', 'message' => 'Venture Plot Updated Successfully']);
     }
 
     /**
