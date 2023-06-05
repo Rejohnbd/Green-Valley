@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Customer\CustomerVentureList;
 use App\Models\Venture;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,7 +17,7 @@ class CustomerVentureController extends Controller
         return Response([
             'status'    => true,
             'message'   => 'All Ventures',
-            'data'      => $data
+            'data'      => CustomerVentureList::collection($data)
         ], Response::HTTP_OK);
     }
 }
