@@ -49,7 +49,7 @@ class UserController extends Controller
         $newUser->first_name    = $request->first_name;
         $newUser->last_name     = $request->last_name;
         $newUser->email         = $request->email;
-        $newUser->password      = Hash::make($request->email);
+        $newUser->password      = Hash::make($request->password);
         $newUser->active_status = $request->active_status;
         $newUser->save();
 
@@ -99,7 +99,7 @@ class UserController extends Controller
         $user->last_name     = $request->last_name;
         $user->email         = $request->email;
         if ($request->filled('password')) {
-            $user->password      = Hash::make($request->email);
+            $user->password      = Hash::make($request->password);
         }
         $user->active_status = $request->active_status;
         $user->save();
