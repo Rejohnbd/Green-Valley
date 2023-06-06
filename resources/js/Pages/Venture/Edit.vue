@@ -10,32 +10,51 @@ const props = defineProps({
     },
 });
 
+const addHighlight = () => {
+    form.highlights.push({ value: null });
+}
+
+const removeHighlight = (index) => {
+    form.highlights.splice(index, 1);
+}
+
+const addNearBy = () => {
+    form.near_by_infos.push({ value: null });
+}
+
+const removeNearBy = (index) => {
+    form.near_by_infos.splice(index, 1);
+}
+
+
 const form = useForm({
     id: props.venture.id,
     venture_name: props.venture.venture_name,
-    number_of_plot: props.venture.number_of_plot,
     venture_description: props.venture.venture_description,
-    venture_description: props.venture.venture_description,
+    highlights: [{value: null}] ,
+    near_by_infos: [{ value: null }],
+    latitude: props.venture.latitude,
+    longitude: props.venture.longitude,
     per_square_feet_price: props.venture.per_square_feet_price,
     venture_layout: props.venture.venture_layout,
     active_status: props.venture.active_status,
-
-
-    // staff_phone: props.staff.staff_phone,
-    // staff_address: props.staff.staff_address,
-    // staff_start_date: props.staff.staff_start_date,
-    // staff_end_date: props.staff.staff_end_date,
-    // staff_active_status: props.staff.staff_active_status
 });
 
+if (props.venture.highlights != null) {
+    form.highlights = props.venture.highlights;
+} 
+
+if (props.venture.near_by_infos != null) {
+    form.near_by_infos = props.venture.near_by_infos;
+} 
+
 function submit() {
-    // router.post('/ventures', form)
     form.post(route('ventures-update', form));
 }
 </script>
 
 <template>
-    <Head title="Venture Add" />
+    <Head title="Venture Edit" />
 
     <AuthenticatedLayout>
         <section class="content-header">
@@ -77,6 +96,52 @@ function submit() {
                                             <label>Venture Description</label>
                                             <textarea class="form-control" id="ventureDescription" v-model="form.venture_description" rows="3" placeholder="Enter Venture Description"></textarea>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="ventureHighlight">Venture Highlight</label>
+                                            <div class="input-group" style="margin-bottom: 5px;" v-for="(highlight, index) in form.highlights">
+                                                <input type="text" v-model="highlight.value" class="form-control" id="ventureHighlight" placeholder="Enter Venture Highlight">
+                                                <span class="input-group-btn">
+                                                    <button @click="addHighlight" type="button" class="btn btn-success btn-flat" v-if="index == 0">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button @click="removeHighlight(index)" type="button" class="btn btn-danger btn-flat" v-else>
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="ventureNearBy">Venture Near By Info</label>
+                                            <div class="input-group" style="margin-bottom: 5px;" v-for="(nearBy, index) in form.near_by_infos">
+                                                <input type="text" v-model="nearBy.value" class="form-control" id="ventureNearBy" placeholder="Enter Venture Near By Info">
+                                                <span class="input-group-btn">
+                                                    <button @click="addNearBy" type="button" class="btn btn-success btn-flat" v-if="index == 0">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button @click="removeNearBy(index)" type="button" class="btn btn-danger btn-flat" v-else>
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="latitude" class="control-label">Enter Latitude </label>
+                                            <input type="text" v-model="form.latitude" class="form-control" id="latitude" placeholder="Enter Latitude" />
+                                        </div>
+                                        <span class="help-block" style="color: red;">{{ errors.latitude }}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="longitude" class="control-label">Enter Longitude </label>
+                                            <input type="text" v-model="form.longitude" class="form-control" id="longitude" placeholder="Enter Longitude" />
+                                        </div>
+                                        <span class="help-block" style="color: red;">{{ errors.longitude }}</span>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">

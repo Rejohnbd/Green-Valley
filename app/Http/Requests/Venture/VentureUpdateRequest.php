@@ -3,10 +3,8 @@
 namespace App\Http\Requests\Venture;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
-class VentureStoreRequest extends FormRequest
+class VentureUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +23,6 @@ class VentureStoreRequest extends FormRequest
     {
         return [
             'venture_name'          => 'required',
-            'number_of_plot'        => 'required|integer|gt:0',
             'per_square_feet_price' => 'required|numeric|gt:0',
             'venture_brochure'      => 'nullable|mimes:pdf',
             'venture_layout'        => 'nullable|mimes:jpg,jpeg,png',
@@ -39,9 +36,6 @@ class VentureStoreRequest extends FormRequest
     {
         return [
             'venture_name.required'             => 'Venture Name Required',
-            'number_of_plot.required'           => 'Number of Plot Required',
-            'number_of_plot.integer'            => 'Provide Valid Number of Plot Required',
-            'number_of_plot.gt'                 => 'Provide Valid Number of Plot',
             'per_square_feet_price.required'    => 'Per Square Feet Price Required',
             'per_square_feet_price.numeric'     => 'Provide Valid Number of Per Square Feet Price',
             'per_square_feet_price.gt'          => 'Provide Valid Number of Per Square Feet Price',

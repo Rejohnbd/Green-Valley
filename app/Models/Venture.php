@@ -22,6 +22,16 @@ class Venture extends Model
         return $this->hasMany(VenturePlot::class)->where('plot_status', 0);
     }
 
+    public function getHighlightsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getNearByInfosAttribute($value)
+    {
+        return json_decode($value);
+    }
+
     public function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y-m-d');

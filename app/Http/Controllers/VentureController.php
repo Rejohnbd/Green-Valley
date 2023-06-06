@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Venture\VentureStoreRequest;
+use App\Http\Requests\Venture\VentureUpdateRequest;
 use App\Models\Venture;
 use App\Models\VenturePlot;
 use Illuminate\Http\Request;
@@ -70,6 +71,11 @@ class VentureController extends Controller
                     $newVenture->venture_layout = '/venture/' . $fileName;
                 }
 
+                $newVenture->highlights     = $this->filterDate($request->highlights);
+                $newVenture->near_by_infos  = $this->filterDate($request->near_by_infos);
+                $newVenture->latitude       = $request->latitude;
+                $newVenture->longitude      = $request->longitude;
+
                 $newVenture->active_status   = $request->active_status;
                 $newVenture->save();
 
@@ -77,7 +83,7 @@ class VentureController extends Controller
                     $newVenturePlot = new VenturePlot;
                     $newVenturePlot->venture_id = $newVenture->id;
                     $newVenturePlot->plot_id    = $i;
-                    $newVenturePlot->plot_name  = $newVenture->venture_name . '- Plot Id -' . $i;
+                    $newVenturePlot->plot_name  = $newVenture->venture_name . '-Plot Id-' . $i;
                     $newVenturePlot->save();
                 }
                 DB::commit();
@@ -111,9 +117,54 @@ class VentureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(VentureUpdateRequest $request)
     {
-        dd($request->all());
+        $checkExists = Venture::where('venture_name_slug', Str::slug($request->venture_name))->where('id', '!=', $request->id)->exists();
+        if ($checkExists) {
+            return Redirect::back()->with(['status' => 'error', 'message' => 'Venture Name Already Exist']);
+        } else {
+            $ventureInfo = Venture::where('id', $request->id)->first();
+            DB::beginTransaction();
+            try {
+                $ventureInfo->venture_name           = $request->venture_name;
+                $ventureInfo->venture_name_slug      = Str::slug($request->venture_name);
+                $ventureInfo->venture_description    = $request->venture_description;
+                $ventureInfo->per_square_feet_price  = $request->per_square_feet_price;
+
+                if ($request->hasFile('venture_brochure')) {
+                    $file = $request->file('venture_brochure');
+                    $fileExtension = $request->venture_brochure->extension();
+                    $fileName = Str::slug($request->venture_name) . "_" . Str::random(5) . "_" . date('his') . '.' . $fileExtension;
+                    $folderpath = public_path() . '/venture';
+                    $file->move($folderpath, $fileName);
+                    $ventureInfo->venture_brochure = '/venture/' . $fileName;
+                }
+
+                if ($request->hasFile('venture_layout')) {
+                    $file = $request->file('venture_layout');
+                    $fileExtension = $request->venture_layout->extension();
+                    $fileName = Str::slug($request->venture_name) . "_" . Str::random(5) . "_" . date('his') . '.' . $fileExtension;
+                    $folderpath = public_path() . '/venture';
+                    $file->move($folderpath, $fileName);
+                    $ventureInfo->venture_layout = '/venture/' . $fileName;
+                }
+
+                $ventureInfo->highlights     = $this->filterDate($request->highlights);
+                $ventureInfo->near_by_infos  = $this->filterDate($request->near_by_infos);
+                $ventureInfo->latitude       = $request->latitude;
+                $ventureInfo->longitude      = $request->longitude;
+
+                $ventureInfo->active_status   = $request->active_status;
+                $ventureInfo->save();
+
+                DB::commit();
+
+                return Redirect::route('ventures.index')->with(['status' => 'success', 'message' => 'Venture Updated Successfully']);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return Redirect::back()->with(['status' => 'error', 'message' => $e->getMessage()]);
+            }
+        }
     }
 
     /**
@@ -132,5 +183,13 @@ class VentureController extends Controller
             'message'   => 'All Ventures',
             'data'      => $data
         ], 200);
+    }
+
+    private function filterDate($data)
+    {
+        $filtedData = array_filter($data, function ($v) {
+            return array_filter($v) != array();
+        });
+        return json_encode(array_merge($filtedData));
     }
 }

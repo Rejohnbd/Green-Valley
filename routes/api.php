@@ -37,5 +37,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Customer
     Route::prefix('customer')->middleware('customer')->group(function () {
         Route::get('all-ventures', [CustomerVentureController::class, 'allVentureItems'])->name('all-ventures');
+        Route::get('venture-details/{id}', [CustomerVentureController::class, 'ventureDetialById'])->name('venture-details');
     });
 });

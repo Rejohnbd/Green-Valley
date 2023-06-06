@@ -5,9 +5,29 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 defineProps({ errors: Object })
 
+const addHighlight = () => {
+    form.highlights.push({ value: null });
+}
+
+const removeHighlight = (index) => {
+    form.highlights.splice(index, 1);
+}
+
+const addNearBy = () => {
+    form.near_by_infos.push({ value: null });
+}
+
+const removeNearBy = (index) => {
+    form.near_by_infos.splice(index, 1);
+}
+
 const form = reactive({
     venture_name: '',
     venture_description: '',
+    highlights: [{value: null}],
+    near_by_infos: [{value: null}],
+    latitude: '',
+    longitude: '',
     number_of_plot: '',
     per_square_feet_price: '',
     venture_brochure: '',
@@ -59,10 +79,56 @@ function submit() {
                                         <span class="help-block" style="color: red;">{{ errors.venture_name_slug }}</span>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group" for="ventureDescription">
-                                            <label>Venture Description</label>
+                                        <div class="form-group">
+                                            <label for="ventureDescription">Venture Description</label>
                                             <textarea class="form-control" id="ventureDescription" v-model="form.venture_description" rows="3" placeholder="Enter Venture Description"></textarea>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="ventureHighlight">Venture Highlight</label>
+                                            <div class="input-group" style="margin-bottom: 5px;" v-for="(highlight, index) in form.highlights">
+                                                <input type="text" v-model="highlight.value" class="form-control" id="ventureHighlight" placeholder="Enter Venture Highlight">
+                                                <span class="input-group-btn">
+                                                    <button @click="addHighlight" type="button" class="btn btn-success btn-flat" v-if="index == 0">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button @click="removeHighlight(index)" type="button" class="btn btn-danger btn-flat" v-else>
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="ventureNearBy">Venture Near By Info</label>
+                                            <div class="input-group" style="margin-bottom: 5px;" v-for="(nearBy, index) in form.near_by_infos">
+                                                <input type="text" v-model="nearBy.value" class="form-control" id="ventureNearBy" placeholder="Enter Venture Near By Info">
+                                                <span class="input-group-btn">
+                                                    <button @click="addNearBy" type="button" class="btn btn-success btn-flat" v-if="index == 0">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button @click="removeNearBy(index)" type="button" class="btn btn-danger btn-flat" v-else>
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="latitude" class="control-label">Enter Latitude </label>
+                                            <input type="text" v-model="form.latitude" class="form-control" id="latitude" placeholder="Enter Latitude" />
+                                        </div>
+                                        <span class="help-block" style="color: red;">{{ errors.latitude }}</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="longitude" class="control-label">Enter Longitude </label>
+                                            <input type="text" v-model="form.longitude" class="form-control" id="longitude" placeholder="Enter Longitude" />
+                                        </div>
+                                        <span class="help-block" style="color: red;">{{ errors.longitude }}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
