@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VenturePlot\VenturePloatImageUploadRequest;
 use App\Http\Requests\VenturePlot\VenturePlotUpdateRequest;
-use App\Models\Customer;
-use App\Models\Staff;
 use App\Models\User;
 use App\Models\Venture;
 use App\Models\VenturePlot;
+use App\Models\VenturePlotImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class VenturePlotController extends Controller
 {
@@ -63,6 +64,7 @@ class VenturePlotController extends Controller
         $allCustomers = User::where('role_id', 3)->where('active_status', 1)->orderBy('id', 'DESC')->get(['id', DB::raw("CONCAT(`first_name`, ' ', `last_name`, ' (', `email`, ')') AS name")]);
         // $allCustomers = User::with('userInfo')->where('role_id', 3)->where('active_status', 1)->orderBy('id', 'DESC')->get(['id', 'first_name', 'last_name', 'email']);
         $allEmployee = User::where('role_id', 2)->where('active_status', 1)->orderBy('id', 'DESC')->get(['id', 'first_name', 'last_name', 'email']);
+        $venturePlot->load('venturePlotImages');
 
         return Inertia::render('VenturePlot/Edit', [
             'venture_plot'  => $venturePlot,
@@ -104,5 +106,23 @@ class VenturePlotController extends Controller
 
         $venturePlot->delete();
         return Redirect::route('venture-plots.index')->with(['status' => 'success', 'message' => 'Venture Plot Deleted Successfully']);
+    }
+
+    public function venturePlotImageUpload(VenturePloatImageUploadRequest $request)
+    {
+        $newVenturePloatImage = new VenturePlotImage;
+        $newVenturePloatImage->venture_id = $request->venture_id;
+        $newVenturePloatImage->venture_plot_id = $request->venture_plot_id;
+
+        $file = $request->file('plot_image');
+        $fileExtension = $request->plot_image->extension();
+        $fileName = Str::slug($request->venture_name) . "_" . Str::random(5) . "_" . date('his') . '.' . $fileExtension;
+        $folderpath = public_path() . '/venture-plot/';
+        $file->move($folderpath, $fileName);
+        $newVenturePloatImage->plot_image = '/venture-plot/' . $fileName;
+
+        $saveVenturePlotImage = $newVenturePloatImage->save();
+
+        return Redirect::back()->with(['status' => 'success', 'message' => 'Venture Plot Image Uploaded']);
     }
 }

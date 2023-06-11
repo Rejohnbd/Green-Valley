@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::post('ventures-update', [VentureController::class, 'update'])->name('ventures-update');
     Route::resource('venture-plots', VenturePlotController::class);
     Route::post('venture-plots-update', [VenturePlotController::class, 'update'])->name('venture-plots-update');
+    Route::post('venture-plot-image-upload', [VenturePlotController::class, 'venturePlotImageUpload'])->name('venture-plot-image-upload');
     Route::resource('users', UserController::class);
     // 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

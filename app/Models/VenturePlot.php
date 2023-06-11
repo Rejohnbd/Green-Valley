@@ -23,4 +23,9 @@ class VenturePlot extends Model
     {
         return $this->belongsTo(User::class, 'staff_id', 'id');
     }
+
+    public function venturePlotImages()
+    {
+        return $this->hasMany(VenturePlotImage::class);;
+    }
 }

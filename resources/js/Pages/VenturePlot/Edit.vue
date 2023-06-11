@@ -134,6 +134,58 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="alert alert-success alert-dismissible" v-if="$page.props.flash.status == 'success'">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Success</h4>
+                        {{ $page.props.flash.message }}
+                    </div>
+                    <div class="box">
+                        <div class="timeline-body text-center" v-for="(venture_plot_image, index ) in $page.props.venture_plot.venture_plot_images">
+                            <span style="position: relative;">
+                                <img :src="venture_plot_image.plot_image" alt="" class="margin">
+                                <button class="btn btn-danger" style="position: absolute; left: 0;">
+                                    <i class="fa fa-fw fa-trash"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Venture Plot Image Upload</h3>
+                        </div>
+                        <form @submit.prevent="ventureImageUpload" enctype="multipart/form-data">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="plotImage" class="control-label">Upload Image</label>
+                                            <input 
+                                                type="file" 
+                                                @input="plotForm.plot_image = $event.target.files[0]" 
+                                                class="form-control" 
+                                                id="plotImage"
+                                                accept="image/png, image/jpg, image/jpeg"
+                                                required
+                                            >
+                                        </div>
+                                        <span class="help-block" style="color: red;">{{ errors.venture_id }}</span>
+                                        <span class="help-block" style="color: red;">{{ errors.venture_plot_id }}</span>
+                                        <span class="help-block" style="color: red;">{{ errors.plot_image }}</span>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-info pull-right">Upload Image</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </section>
     </AuthenticatedLayout>
 </template>
@@ -146,6 +198,7 @@ import 'vue-next-select/dist/index.min.css'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
 
 export default {
     name: 'EditPlot',
@@ -169,10 +222,13 @@ export default {
             type: Array
         }
     },
-    
-    created(){
+    created() {
+        // console.log(this.$props.venture_plot)
         this.form.plot_id = this.$props.venture_plot.id;
         this.form.plot_name = this.$props.venture_plot.plot_name;
+
+        this.plotForm.venture_id = this.$props.venture_plot.venture_id;
+        this.plotForm.venture_plot_id = this.$props.venture_plot.plot_id;
         // this.form.plot_id = ;
         // console.log(this.$props.all_customers)
         // console.log(toRaw(this.$props.all_customers))
@@ -198,8 +254,14 @@ export default {
                 sale_date: '',
                 handover_date: ''
             },
+            plotForm : this.$inertia.form({
+                venture_id: '',
+                venture_plot_id: '',
+                plot_image: ''
+            })
             // isLoading: true
         }
+        
     },
     methods: {
         submit() {
@@ -242,6 +304,24 @@ export default {
             } else {
                 return '';
             }
+        },
+        ventureImageUpload(){
+            // console.log(this.$props.venture_plot)
+            console.log(this.plotForm)
+            console.log(this.plotForm.plot_image)
+            // console.log('called')
+            // const form = useForm({});
+            // const formData = new FormData();
+            // formData.append('venture_id', this.$props.venture_plot.venture_id);
+            // formData.append('plot_id', this.$props.venture_plot.plot_id);
+            // // formData.append('plot_image', this.plotForm.plot_image);
+            // // let formData = {
+            // //     venture_id: this.$props.venture_plot.venture_id,
+            // //     plot_id: this.$props.venture_plot.plot_id,
+            // //     plot_image: this.plotForm.plot_image
+            // // }
+            // console.log(formData);
+            this.plotForm.post(route('venture-plot-image-upload'));
         }
     }
     

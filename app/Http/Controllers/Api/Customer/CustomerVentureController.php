@@ -24,7 +24,7 @@ class CustomerVentureController extends Controller
 
     public function ventureDetialById(string $id)
     {
-        $data = Venture::withCount(['saleVenturePlots', 'availableVenturePlots'])->where('active_status', 1)->findOrFail($id);
+        $data = Venture::withCount(['saleVenturePlots', 'availableVenturePlots'])->with('venturePlotImages')->where('active_status', 1)->findOrFail($id);
 
         return Response([
             'status'    => true,

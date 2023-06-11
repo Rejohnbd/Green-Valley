@@ -22,6 +22,11 @@ class Venture extends Model
         return $this->hasMany(VenturePlot::class)->where('plot_status', 0);
     }
 
+    public function venturePlotImages()
+    {
+        return $this->hasMany(VenturePlotImage::class, 'venture_id', 'id');
+    }
+
     public function getHighlightsAttribute($value)
     {
         return json_decode($value);

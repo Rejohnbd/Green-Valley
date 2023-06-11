@@ -23,6 +23,7 @@ class VentureDetialResource extends JsonResource
             'near_by'               => $this->near_by_infos,
             'latitude'              => $this->latitude,
             'longitude'             => $this->longitude,
+            'plot_images'           => VenturePlotImageResource::collection($this->whenLoaded('venturePlotImages'))
         ];
     }
 }
