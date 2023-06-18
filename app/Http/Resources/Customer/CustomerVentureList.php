@@ -21,6 +21,7 @@ class CustomerVentureList extends JsonResource
             'number_of_plot'        => $this->number_of_plot,
             'per_square_feet_price' => $this->per_square_feet_price,
             'venture_layout'        => $this->venture_layout,
+            'venture_brochure'      => $this->venture_brochure,
             'sale'                  => $this->sale_venture_plots_count,
             'available'             => $this->available_venture_plots_count,
         ];

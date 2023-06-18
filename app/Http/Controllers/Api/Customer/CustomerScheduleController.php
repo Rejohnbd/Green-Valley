@@ -43,7 +43,7 @@ class CustomerScheduleController extends Controller
             [
                 'venture_id'    => 'required|numeric|exists:ventures,id',
                 'schedule_date' => 'required|date_format:Y-m-d|after:' . date('Y-m-d', strtotime("-1 days")),
-                'schedule_time' => 'required|date_format:H:i|after:' . date('H:i'),
+                'schedule_time' => 'required|date_format:H:i',
             ],
             [
                 'venture_id.required'       => 'Venture Info is Required',
