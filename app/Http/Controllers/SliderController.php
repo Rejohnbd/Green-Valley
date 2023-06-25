@@ -79,9 +79,7 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-        $image_name = trim(str_replace("/slider/", "", $slider->image));
         File::delete(public_path($slider->image));
-
         $slider->delete();
         return Redirect::route('sliders.index')->with(['status' => 'success', 'message' => 'Slider Deleted Successfully']);
     }

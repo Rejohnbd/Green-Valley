@@ -142,9 +142,9 @@
                         {{ $page.props.flash.message }}
                     </div>
                     <div class="box">
-                        <div class="timeline-body text-center" v-for="(venture_plot_image, index ) in $page.props.venture_plot.venture_plot_images">
-                            <span style="position: relative;">
-                                <img :src="venture_plot_image.plot_image" alt="" class="margin">
+                        <div class="timeline-body text-center">
+                            <span style="position: relative;" v-for="(venture_plot_image, index ) in $page.props.venture_plot.venture_plot_images">
+                                <img :src="venture_plot_image.plot_image" alt="" class="margin" style="width: 150px; height: 100px">
                                 <button class="btn btn-danger" style="position: absolute; left: 0;">
                                     <i class="fa fa-fw fa-trash"></i>
                                 </button>
