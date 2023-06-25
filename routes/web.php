@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VentureController;
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('venture-plots-update', [VenturePlotController::class, 'update'])->name('venture-plots-update');
     Route::post('venture-plot-image-upload', [VenturePlotController::class, 'venturePlotImageUpload'])->name('venture-plot-image-upload');
     Route::resource('users', UserController::class);
+    Route::resource('sliders', SliderController::class);
     // 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -6,6 +6,7 @@
 /public/storage
 /public/venture
 /public/venture-plot
+/public/slider
 /storage/*.key
 /vendor
 .env
