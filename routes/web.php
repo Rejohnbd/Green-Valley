@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VentureController;
@@ -47,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('venture-plot-image-upload', [VenturePlotController::class, 'venturePlotImageUpload'])->name('venture-plot-image-upload');
     Route::resource('users', UserController::class);
     Route::resource('sliders', SliderController::class);
+    Route::resource('social-links', SocialLinkController::class);
     // 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -58,6 +60,19 @@ Route::get('migrate/{key}', function ($key) {
         try {
             \Artisan::call('migrate');
             echo 'Migrated Successfully!';
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    } else {
+        echo 'Not matched!';
+    }
+});
+
+Route::get('seeder/{key}/{className}', function ($key, $className) {
+    if ($key == 'Rejohn@1234') {
+        try {
+            \Artisan::call('db:seed --class=' . $className);
+            echo 'Seeder Run Successfully!';
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

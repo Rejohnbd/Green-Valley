@@ -38,6 +38,7 @@
 
                 <li class="header">WEB SECTION</li>
                 <li><Link :href="route('sliders.index')"><i class="fa fa-bank"></i> <span>Sliders</span></Link></li>
+                <li><Link :href="route('social-links.index')"><i class="fa fa-bank"></i> <span>Social Link</span></Link></li>
             </ul>
         </section>
     </aside>
