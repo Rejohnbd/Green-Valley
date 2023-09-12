@@ -1,12 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, router } from '@inertiajs/vue3';
+// import { Inertia } from "@inertiajs/inertia";
+import { ref, watch } from "vue";
 
 defineProps({
     ventures: {
         type: Array
     }
-})
+});
 
 const form = useForm({});
 
@@ -26,6 +28,14 @@ const deleteVenture = (deleteInfo) => {
         }
     });
 };
+
+let search = ref('');
+watch(search, (value) => {
+    router.get( route('ventures.index'),
+        { search: value },
+        {preserveState: true,}
+    );
+});
 </script>
 
 <template>
@@ -62,6 +72,11 @@ const deleteVenture = (deleteInfo) => {
                             <h3 class="box-title">Venture List</h3>
                             <div class="box-tools">
                                 <Link :href="route('ventures.create')" type="button" class="btn btn-primary btn-flat btn-xs pull-right">Add Venture</Link>
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-md-3">
+                                    <input class="form-control"  v-model="search" placeholder="Search Venture" />
+                                </div>
                             </div>
                         </div>
                         

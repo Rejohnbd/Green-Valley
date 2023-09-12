@@ -7,6 +7,7 @@ use App\Http\Requests\Venture\VentureUpdateRequest;
 use App\Models\Venture;
 use App\Models\VenturePlot;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Str;
@@ -19,9 +20,16 @@ class VentureController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $data = Venture::orderBy('id', 'DESC')->get();
+        // dd($request->search);
+        // $data = Venture::orderBy('id', 'DESC')->get();
+        $data = Venture::query()
+            ->when($request->search, function ($query, $search) {
+                $query->where('venture_name', 'like', '%' . $search . '%');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
         return Inertia::render('Venture/List', [
             'ventures' => $data
         ]);
