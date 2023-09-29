@@ -53,6 +53,8 @@ class VentureController extends Controller
             return Redirect::route('ventures.create')->with(['status' => 'error', 'message' => 'Venture Name Already Exist']);
         } else {
             DB::beginTransaction();
+            $this->filterDate($request->highlights);
+            // dd($request->all(), $request->highlights);
             try {
                 $newVenture = new Venture;
                 $newVenture->venture_name           = $request->venture_name;
@@ -198,6 +200,11 @@ class VentureController extends Controller
         $filtedData = array_filter($data, function ($v) {
             return array_filter($v) != array();
         });
-        return json_encode(array_merge($filtedData));
+
+        if (count($filtedData) > 0) {
+            return json_encode(array_merge($filtedData));
+        } else {
+            return null;
+        }
     }
 }
